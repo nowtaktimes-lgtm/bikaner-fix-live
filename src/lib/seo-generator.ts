@@ -17,9 +17,9 @@ export const generateSEO = (service: Service, location: Location): SEOData => {
         "@context": "https://schema.org",
         "@type": "HomeAndConstructionBusiness", // Can be dynamic based on service type
         "name": `${service.name} in ${location.name}`,
-        "image": "https://fixbikaner.com/default-service-image.jpg", // Placeholder
-        "@id": `https://fixbikaner.com/${service.slug}/${location.slug}`,
-        "url": `https://fixbikaner.com/${service.slug}/${location.slug}`,
+        "image": "https://www.fixbikaner.in/default-service-image.jpg", // Placeholder
+        "@id": `https://www.fixbikaner.in/${service.slug}/${location.slug}`,
+        "url": `https://www.fixbikaner.in/${service.slug}/${location.slug}`,
         "telephone": siteConfig.contact.phone,
         "priceRange": service.priceStart,
         "address": {

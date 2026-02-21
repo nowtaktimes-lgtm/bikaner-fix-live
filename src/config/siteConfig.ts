@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Fix Bikaner",
   shortName: "FixBikaner",
   description: "Bikaner's #1 Home Service Experts",
-  url: "https://fixbikaner.com",
+  url: "https://www.fixbikaner.in",
   phone: "8946874020", // Aahan
   whatsapp: "https://wa.me/918946874020",
   address: "Bikaner, Rajasthan",

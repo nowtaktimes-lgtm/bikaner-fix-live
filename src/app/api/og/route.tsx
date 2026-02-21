@@ -87,7 +87,7 @@ export async function GET(request: Request) {
                     </div>
 
                     <div {...pFooter}>
-                        Book Now: fixbikaner.com
+                        Book Now: www.fixbikaner.in
                     </div>
                 </div>
             ),

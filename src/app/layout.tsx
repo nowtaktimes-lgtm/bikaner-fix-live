@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: "https://fixbikaner.com/og-image.jpg", // Recommended size 1200x630
+        url: "https://www.fixbikaner.in/og-image.jpg", // Recommended size 1200x630
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: ["https://fixbikaner.com/og-image.jpg"],
+    images: ["https://www.fixbikaner.in/og-image.jpg"],
   },
   verification: {
     google: siteConfig.googleVerificationCode,

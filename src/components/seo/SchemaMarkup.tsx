@@ -17,9 +17,9 @@ export function SchemaMarkup({ service, location }: SchemaMarkupProps) {
         "@context": "https://schema.org",
         "@type": "HomeAndConstructionBusiness", // Could be dynamic: "HVACBusiness", "Electrician"
         "name": `${service.name} in ${location.name} - Fix Bikaner`,
-        "image": "https://fixbikaner.com/default-service-image.jpg", // Placeholder
-        "@id": `https://fixbikaner.com/${service.slug}/${location.slug}`,
-        "url": `https://fixbikaner.com/${service.slug}/${location.slug}`,
+        "image": "https://www.fixbikaner.in/default-service-image.jpg", // Placeholder
+        "@id": `https://www.fixbikaner.in/${service.slug}/${location.slug}`,
+        "url": `https://www.fixbikaner.in/${service.slug}/${location.slug}`,
         "telephone": siteConfig.contact.phone,
         "priceRange": service.priceStart,
         "address": {
@@ -68,19 +68,19 @@ export function SchemaMarkup({ service, location }: SchemaMarkupProps) {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://fixbikaner.com/",
+                "item": "https://www.fixbikaner.in/",
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": service.name,
-                "item": `https://fixbikaner.com/${service.slug}`,
+                "item": `https://www.fixbikaner.in/${service.slug}`,
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": `${service.name} in ${location.name}`,
-                "item": `https://fixbikaner.com/${service.slug}/${location.slug}`,
+                "item": `https://www.fixbikaner.in/${service.slug}/${location.slug}`,
             },
         ],
     };
