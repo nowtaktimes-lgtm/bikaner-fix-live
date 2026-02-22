@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Service, Location } from "@/types"; // You might need to export ContentStory from types or just inline it
+import { services } from "@/data/services";
 import { Hero } from "@/components/Hero";
 import { TrustBlock } from "@/components/TrustBlock";
 import { TechnicianCard } from "@/components/TechnicianCard";
@@ -17,6 +18,9 @@ import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 import { NearbyLocations } from "@/components/NearbyLocations";
 import { OpenStatusBadge } from "@/components/ui/OpenStatusBadge";
 import { ChatTestimonials } from "@/components/ui/ChatTestimonials";
+import { RichTextWithLinks } from "@/components/ui/RichTextWithLinks";
+import Link from "next/link";
+import * as Icons from "lucide-react";
 
 interface ServicePageLayoutProps {
     service: Service;
@@ -124,12 +128,12 @@ export function ServicePageLayout({
 
                             <div className={`${isSeoExpanded ? 'block mt-4 md:mt-0' : 'hidden md:block'}`}>
                                 <div id="about-section" className="space-y-3 md:space-y-4 text-slate-600 text-sm md:text-base">
-                                    <p>{story.introText}</p>
+                                    <p><RichTextWithLinks content={story.introText} currentLocationSlug={location.slug} /></p>
                                     <div className="bg-blue-50 p-3 md:p-4 rounded-lg border-l-4 border-blue-500">
                                         <p className="font-medium text-blue-900 mb-1">The Local Challenge:</p>
-                                        <p>{story.problemText}</p>
+                                        <p><RichTextWithLinks content={story.problemText} currentLocationSlug={location.slug} /></p>
                                     </div>
-                                    <p><strong>Why Choose Us?</strong> {story.whyUsText}</p>
+                                    <p><strong>Why Choose Us?</strong> <RichTextWithLinks content={story.whyUsText} currentLocationSlug={location.slug} /></p>
                                 </div>
 
                                 <div className="mt-5 pt-5 md:mt-6 md:pt-6 border-t border-slate-100">
@@ -188,6 +192,32 @@ export function ServicePageLayout({
                             currentServiceSlug={service.slug}
                             currentServiceName={service.shortName}
                         />
+                    </div>
+                </div>
+
+                {/* Related Services in the Same Location */}
+                <div className="mt-8 mb-6 border-t border-slate-200 pt-8">
+                    <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-6 text-center">
+                        Other Services in {location.name}
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+                        {services.filter(s => s.slug !== service.slug).map((relatedService) => {
+                            const IconComponent = Icons[relatedService.icon as keyof typeof Icons] as React.ElementType || Icons.Wrench;
+                            return (
+                                <Link
+                                    key={relatedService.slug}
+                                    href={`/${relatedService.slug}/${location.slug}`}
+                                    className="flex flex-col items-center justify-center p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all group"
+                                >
+                                    <div className="bg-blue-50 text-blue-600 p-3 rounded-full mb-3 group-hover:scale-110 group-hover:bg-blue-100 transition-transform">
+                                        <IconComponent className="w-6 h-6" />
+                                    </div>
+                                    <span className="text-sm font-semibold text-slate-700 text-center line-clamp-2">
+                                        {relatedService.shortName}
+                                    </span>
+                                </Link>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

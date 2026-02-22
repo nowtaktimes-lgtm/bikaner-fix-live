@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: "https://www.fixbikaner.in/og-image.jpg", // Recommended size 1200x630
+        url: `${siteConfig.url}/api/og?title=${encodeURIComponent(siteConfig.name)}&price=199&brand=${encodeURIComponent(siteConfig.name)}`, // Dynamic API Generator
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: ["https://www.fixbikaner.in/og-image.jpg"],
+    images: [`${siteConfig.url}/api/og?title=${encodeURIComponent(siteConfig.name)}&price=199&brand=${encodeURIComponent(siteConfig.name)}`],
   },
   verification: {
     google: siteConfig.googleVerificationCode,
@@ -75,6 +75,23 @@ export default function RootLayout({
         className="font-sans antialiased bg-slate-50 text-slate-900 relative min-h-screen flex flex-col pt-[60px] md:pt-[72px] pb-[96px] md:pb-0 overflow-x-hidden w-full"
         suppressHydrationWarning
       >
+        {/* Google Analytics */}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=G-1TQMT7EEQQ`}
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-1TQMT7EEQQ');
+            `,
+          }}
+        />
         <Script id="register-sw" strategy="afterInteractive">
           {`
             if ('serviceWorker' in navigator) {
