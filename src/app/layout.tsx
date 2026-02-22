@@ -18,9 +18,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: siteConfig.name,
   description: siteConfig.description,
-  keywords: ["AC Repair Bikaner", "RO Service Bikaner", "Electrician Bikaner", "Home Services Bikaner"],
+  alternates: {
+    canonical: '/',
+  },
   authors: [{ name: "Fix Bikaner Team", url: siteConfig.url }],
   creator: "Fix Bikaner",
   manifest: "/manifest.json",

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Phone, Star, ShieldCheck, Clock, Zap, ArrowRight, CheckCircle2, MapPin, ChevronDown } from 'lucide-react';
 import { siteConfig } from '@/config/siteConfig';
 
@@ -14,7 +14,13 @@ import FAQMap from '@/components/FAQMap';
 import { ChatTestimonials } from '@/components/ui/ChatTestimonials';
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const [showMore, setShowMore] = useState(false);
+
+  // Prevent hydration errors by only rendering the toggle after component mounts
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const topLocations = [
     "JNV Colony", "Pawanpuri", "Sadul Ganj", "Rani Bazar",
@@ -122,95 +128,90 @@ export default function Home() {
           <ServiceGrid />
         </div>
 
-        {/* "VIEW MORE" TOGGLE BUTTON */}
-        {!showMore && (
-          <div className="flex justify-center px-4 py-8 mb-12">
-            <button
-              onClick={() => setShowMore(true)}
-              className="flex items-center gap-2 bg-white text-slate-700 font-bold border-2 border-slate-200 px-8 py-4 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 active:scale-95 transition-all w-full md:w-auto justify-center"
-            >
-              View More Details <ChevronDown className="w-5 h-5" />
-            </button>
+        {/* "VIEW MORE" TOGGLE BUTTON (MOBILE ONLY) */}
+        <div className={`flex md:hidden justify-center px-4 py-8 mb-12 ${mounted && !showMore ? 'block' : 'hidden'}`}>
+          <button
+            onClick={() => setShowMore(true)}
+            className="flex items-center gap-2 bg-white text-slate-700 font-bold border-2 border-slate-200 px-8 py-4 rounded-full shadow-sm hover:shadow-md hover:border-slate-300 active:scale-95 transition-all w-full md:w-auto justify-center"
+          >
+            View More Details <ChevronDown className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* HIDDEN CONTENT (Revealed on 'View More' click on Mobile, always visible on Desktop) */}
+        <div className={`${showMore ? 'block' : 'hidden md:block'} animate-in fade-in slide-in-from-bottom-8 duration-700`}>
+
+          <div>
+            <BenefitGrid />
           </div>
-        )}
 
-        {/* HIDDEN CONTENT (Revealed on 'View More' click) */}
-        {(showMore || true) && ( // We use CSS hiding for desktop to ensure SEO footprint remains
-          <div className={`${showMore ? 'block' : 'hidden md:block'} animate-in fade-in slide-in-from-bottom-8 duration-700`}>
-
-            <div>
-              <BenefitGrid />
+          <div>
+            <div id="reviews">
+              <ChatTestimonials />
             </div>
+          </div>
 
-            <div>
-              <div id="reviews">
-                <ChatTestimonials />
+          <div>
+            <section className="py-20 bg-white border-b border-slate-200">
+              <div className="max-w-7xl mx-auto px-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-900">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
+                    Top Rated Technicians
+                  </span>
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+                  <TechnicianCard
+                    locationName="JNV Colony"
+                    name="Rajesh Kumar"
+                    rating={4.9}
+                    jobs={1240}
+                    specialty="AC Repair Expert"
+                  />
+                  <TechnicianCard
+                    locationName="Nokha"
+                    name="Amit Bishnoi"
+                    rating={4.8}
+                    jobs={980}
+                    specialty="Refrigerator Wizard"
+                  />
+                  <TechnicianCard
+                    locationName="Gangashahar"
+                    name="Suresh Verma"
+                    rating={4.9}
+                    jobs={850}
+                    specialty="Washing Machine Pro"
+                  />
+                </div>
               </div>
-            </div>
-
-            <div>
-              <section className="py-20 bg-white border-b border-slate-200">
-                <div className="max-w-7xl mx-auto px-4">
-                  <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-slate-900">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
-                      Top Rated Technicians
-                    </span>
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-                    <TechnicianCard
-                      locationName="JNV Colony"
-                      name="Rajesh Kumar"
-                      rating={4.9}
-                      jobs={1240}
-                      specialty="AC Repair Expert"
-                    />
-                    <TechnicianCard
-                      locationName="Nokha"
-                      name="Amit Bishnoi"
-                      rating={4.8}
-                      jobs={980}
-                      specialty="Refrigerator Wizard"
-                    />
-                    <TechnicianCard
-                      locationName="Gangashahar"
-                      name="Suresh Verma"
-                      rating={4.9}
-                      jobs={850}
-                      specialty="Washing Machine Pro"
-                    />
-                  </div>
-                </div>
-              </section>
-            </div>
-
-            <div>
-              <FAQMap faqs={commonFaqs} serviceName="Home Services" locationName="Bikaner" />
-            </div>
-
-            {/* SEO FOOTER GRID */}
-            <div className="pb-24 md:pb-0">
-              <section className="py-16 bg-white border-t border-slate-200 text-center">
-                <div className="max-w-4xl mx-auto px-4">
-                  <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">Serving All Neighborhoods in Bikaner</h3>
-                  <div className="flex flex-wrap justify-center gap-3 mb-8">
-                    {topLocations.map((loc) => (
-                      <Link key={loc} href={`/ac-repair-service/${loc.toLowerCase().replace(/ /g, '-')}`} className="bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-slate-700 text-sm hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50 transition-colors shadow-sm font-medium">
-                        {loc}
-                      </Link>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-center">
-                    <Link href="/service-areas" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold bg-blue-50 hover:bg-blue-100 px-6 py-3 rounded-xl transition-all border border-blue-200 shadow-sm active:scale-95">
-                      <MapPin className="w-5 h-5 text-blue-500" /> View All 500+ Service Areas <ArrowRight className="w-4 h-4 ml-1" />
-                    </Link>
-                  </div>
-                </div>
-              </section>
-            </div>
-
+            </section>
           </div>
-        )}
+
+          <div>
+            <FAQMap faqs={commonFaqs} serviceName="Home Services" locationName="Bikaner" />
+          </div>
+
+          {/* SEO FOOTER GRID */}
+          <div className="pb-24 md:pb-0">
+            <section className="py-16 bg-white border-t border-slate-200 text-center">
+              <div className="max-w-4xl mx-auto px-4">
+                <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6">Serving All Neighborhoods in Bikaner</h3>
+                <div className="flex flex-wrap justify-center gap-3 mb-8">
+                  {topLocations.map((loc) => (
+                    <Link key={loc} href={`/ac-repair-service/${loc.toLowerCase().replace(/ /g, '-')}`} className="bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-slate-700 text-sm hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50 transition-colors shadow-sm font-medium">
+                      {loc}
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="flex justify-center">
+                  <Link href="/service-areas" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold bg-blue-50 hover:bg-blue-100 px-6 py-3 rounded-xl transition-all border border-blue-200 shadow-sm active:scale-95">
+                    <MapPin className="w-5 h-5 text-blue-500" /> View All 500+ Service Areas <ArrowRight className="w-4 h-4 ml-1" />
+                  </Link>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
 
       </div>
     </>

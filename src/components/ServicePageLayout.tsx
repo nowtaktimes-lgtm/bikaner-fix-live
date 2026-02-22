@@ -37,6 +37,7 @@ export function ServicePageLayout({
 }: ServicePageLayoutProps) {
     const [isLeadFormOpen, setIsLeadFormOpen] = useState(false);
     const [isSeoExpanded, setIsSeoExpanded] = useState(false);
+    const [isNearbyExpanded, setIsNearbyExpanded] = useState(false);
 
     console.log("ServicePageLayout Rendering:", { serviceName: service?.name, locationName: location?.name });
 
@@ -164,13 +165,30 @@ export function ServicePageLayout({
                     </div>
                 </div>
                 <ChatTestimonials testimonials={service.testimonials} />
-                <div className="hidden md:block">
-                    <NearbyLocations
-                        currentZoneId={location.zoneId}
-                        currentLocationSlug={location.slug}
-                        currentServiceSlug={service.slug}
-                        currentServiceName={service.shortName}
-                    />
+
+                {/* Nearby Locations - Toggleable on Mobile */}
+                <div className="mt-8 mb-6">
+                    <div className="md:hidden flex justify-center mb-4">
+                        <button
+                            onClick={() => setIsNearbyExpanded(!isNearbyExpanded)}
+                            className="flex items-center gap-2 text-blue-600 font-semibold bg-blue-50 px-6 py-2 rounded-full border border-blue-100"
+                        >
+                            {isNearbyExpanded ? (
+                                <>View Less <ChevronUp className="w-4 h-4" /></>
+                            ) : (
+                                <>View Nearby Service Areas <ChevronDown className="w-4 h-4" /></>
+                            )}
+                        </button>
+                    </div>
+
+                    <div className={`${isNearbyExpanded ? 'block' : 'hidden md:block'}`}>
+                        <NearbyLocations
+                            currentZoneId={location.zoneId}
+                            currentLocationSlug={location.slug}
+                            currentServiceSlug={service.slug}
+                            currentServiceName={service.shortName}
+                        />
+                    </div>
                 </div>
             </div>
 

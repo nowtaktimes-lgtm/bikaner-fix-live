@@ -8,7 +8,7 @@ export function DelayedQuotePopup() {
     const [hasShown, setHasShown] = useState(false);
 
     useEffect(() => {
-        // Show after 6 seconds once per session
+        // Show after 12 seconds once per session (Expert recommended delay for local service sites)
         const timer = setTimeout(() => {
             // We use sessionStorage to make sure it doesn't pop up on every page navigation during the same visit
             const alreadyShown = sessionStorage.getItem("quotePopupShown");
@@ -18,7 +18,7 @@ export function DelayedQuotePopup() {
                 setHasShown(true);
                 sessionStorage.setItem("quotePopupShown", "true");
             }
-        }, 6000);
+        }, 12000);
 
         return () => clearTimeout(timer);
     }, [hasShown]);

@@ -1,4 +1,5 @@
-import { Phone } from "lucide-react";
+import { useState } from "react";
+import { Phone, ChevronDown, ChevronUp } from "lucide-react";
 import { siteConfig } from "@/config/siteConfig";
 
 interface HeroProps {
@@ -10,6 +11,8 @@ interface HeroProps {
 }
 
 export function Hero({ heroTitle, serviceName, locationName, mainOffer, heroImage }: HeroProps) {
+    const [isOfferExpanded, setIsOfferExpanded] = useState(false);
+
     // Replace placeholders in the offer text if they exist dynamically (though they should be pre-processed)
     // For safety, we display the passed prop directly assuming it's already processed by the parent.
 
@@ -26,7 +29,7 @@ export function Hero({ heroTitle, serviceName, locationName, mainOffer, heroImag
             <div className="absolute inset-0 bg-slate-900/80 md:bg-slate-900/70"></div>
 
             <div className="relative max-w-4xl mx-auto text-center z-10">
-                <div className="hidden md:inline-block bg-blue-600/20 border border-blue-500/30 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm">
+                <div className="inline-block bg-blue-600/20 border border-blue-500/30 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm">
                     <span className="text-blue-300 text-sm font-semibold tracking-wide uppercase">
                         {locationName}&apos;s #1 {serviceName} Service
                     </span>
@@ -36,7 +39,7 @@ export function Hero({ heroTitle, serviceName, locationName, mainOffer, heroImag
                     {heroTitle}
                 </h1>
 
-                <p className="hidden md:block text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+                <p className={`${isOfferExpanded ? 'block' : 'hidden md:block'} text-xl text-slate-300 mb-8 max-w-2xl mx-auto`}>
                     {mainOffer}
                 </p>
 
@@ -50,7 +53,24 @@ export function Hero({ heroTitle, serviceName, locationName, mainOffer, heroImag
                     </a>
                 </div>
 
-                <p className="hidden md:block mt-4 text-sm text-slate-400">
+                <div className="md:hidden mt-6 flex justify-center">
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setIsOfferExpanded(!isOfferExpanded);
+                        }}
+                        className="text-white/70 flex items-center gap-1 text-sm bg-white/10 px-4 py-1.5 rounded-full"
+                    >
+                        {isOfferExpanded ? (
+                            <>Hide Offer Details <ChevronUp className="w-4 h-4" /></>
+                        ) : (
+                            <>View Offer Details <ChevronDown className="w-4 h-4" /></>
+                        )}
+                    </button>
+                </div>
+
+                <p className={`${isOfferExpanded ? 'block' : 'hidden md:block'} mt-4 text-sm text-slate-400`}>
                     No hidden charges. Pay after service.
                 </p>
 

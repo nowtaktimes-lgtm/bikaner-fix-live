@@ -7,6 +7,7 @@ import { SchemaMarkup } from "@/components/seo/SchemaMarkup";
 import { siteConfig } from "@/config/siteConfig";
 import { Metadata } from "next";
 import { ServicePageLayout } from "@/components/ServicePageLayout";
+import { getWeeklySeed } from "@/lib/dynamicEngine";
 
 // Defines params as a Promise for Next.js 15+ Compatibility
 interface PageProps {
@@ -49,28 +50,53 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         return {};
     }
 
-    const canonicalUrl = `${siteConfig.url}/${service.slug}/${location.slug}`;
+    const serviceSlug = service.slug;
+    const locationSlug = location.slug;
+    const serviceName = service.name || service.shortName || "Service";
+    const locationName = location.name || "Bikaner";
+    const visitCharge = service.priceStart.replace(/[^0-9]/g, '') || "199";
+    const phone = siteConfig.phone || (siteConfig.contact && siteConfig.contact.phone) || "8946874020";
 
-    // Template: "{service.shortName} in {location.name} | Arriving in 30 Mins | {siteConfig.brandName}"
-    const title = `${service.shortName} in ${location.name} | Arriving in 30 Mins | ${siteConfig.name}`;
+    // Get the weekly deterministic seed for this specific location
+    const seed = getWeeklySeed(locationSlug);
 
-    // Template: "Looking for {service.name} in {location.name}? Our technician is near {location.landmark}. {service.priceStart} Visit Charge. Call {siteConfig.phone}."
-    // Support both siteConfig.phone (root) and siteConfig.contact.phone (legacy)
-    const phone = siteConfig.phone || (siteConfig.contact && siteConfig.contact.phone) || "";
-    const description = `Looking for ${service.name} in ${location.name}? Our technician is near ${location.landmark}. ${service.priceStart} Visit Charge. Call ${phone}.`;
+    // --- HIGH-CTR TITLE TEMPLATES ---
+    const titleTemplates = [
+        `Expert ${serviceName} in ${locationName} - ₹${visitCharge} Visit | Fix Bikaner`,
+        `Top-Rated ${serviceName} in ${locationName} | 30 Min Arrival`,
+        `#1 ${serviceName} in ${locationName} | 30-Day Warranty`,
+        `Fast ${serviceName} in ${locationName} - Just ₹${visitCharge} | Fix Bikaner`
+    ];
 
+    // --- HIGH-CTR DESCRIPTION TEMPLATES ---
+    const descTemplates = [
+        `Looking for ${serviceName} in ${locationName}? Get expert repair in 30 minutes. ₹${visitCharge} visit charge + 30-day warranty. Call Fix Bikaner now at ${phone}!`,
+        `Fast & reliable ${serviceName} in ${locationName}. Our verified technicians arrive in 30 mins. 100% genuine parts and 30-day warranty. Book today!`,
+        `Fix your appliance today! Expert ${serviceName} in ${locationName} starting at just ₹${visitCharge} for visit. 30-Day service guarantee. Call ${phone}.`,
+        `Trusted ${serviceName} in ${locationName} (${location.landmark || 'Bikaner'}). AI-dispatched pros, transparent pricing (₹${visitCharge}), and 30-day warranty. Call ${phone}.`
+    ];
+
+    // Select templates based on the weekly seed
+    const selectedTitle = titleTemplates[seed % titleTemplates.length];
+    const selectedDesc = descTemplates[seed % descTemplates.length];
+
+    const canonicalUrl = `${siteConfig.url}/${serviceSlug}/${locationSlug}`;
     const ogTitle = `${service.shortName} in ${location.name}`;
-    const ogImage = `${siteConfig.url}/api/og?title=${encodeURIComponent(ogTitle)}&price=${encodeURIComponent(service.priceStart.replace(/[^0-9]/g, ''))}&brand=${encodeURIComponent(siteConfig.name)}`;
+    const ogImage = `${siteConfig.url}/api/og?title=${encodeURIComponent(ogTitle)}&price=${encodeURIComponent(visitCharge)}&brand=${encodeURIComponent(siteConfig.name)}`;
 
     return {
-        title,
-        description,
+        title: selectedTitle,
+        description: selectedDesc,
         alternates: {
             canonical: canonicalUrl,
         },
         openGraph: {
-            title,
-            description,
+            title: selectedTitle,
+            description: selectedDesc,
+            url: canonicalUrl,
+            siteName: siteConfig.name || 'Fix Bikaner',
+            locale: 'en_IN',
+            type: 'website',
             images: [
                 {
                     url: ogImage,
@@ -82,6 +108,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         }
     };
 }
+
 
 // 2. The Master Page Component
 export default async function DynamicServicePage(props: PageProps) {
