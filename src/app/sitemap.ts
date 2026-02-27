@@ -2,7 +2,6 @@ import { MetadataRoute } from "next";
 import { services } from "@/data/services";
 import { locations } from "@/data/locations";
 import { siteConfig } from "@/config/siteConfig";
-import { applianceProblems } from "@/data/seo/applianceProblems";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = siteConfig.url;
@@ -54,21 +53,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
                     priority: 0.7, // Lower priority than Hub Page
                 });
             }
-        });
-
-        // 4. Programmatic Problem Pages (e.g. /ac-repair-service/not-cooling/jnv-colony)
-        const problems = applianceProblems[service.slug] || [];
-        problems.forEach((problem) => {
-            locations.forEach((location) => {
-                if (siteConfig.activeZones.includes(location.zoneId)) {
-                    routes.push({
-                        url: `${baseUrl}/${service.slug}/${problem.id}/${location.slug}`,
-                        lastModified: new Date(),
-                        changeFrequency: "monthly",
-                        priority: 0.5, // Lowest priority but highest volume
-                    });
-                }
-            });
         });
     });
 

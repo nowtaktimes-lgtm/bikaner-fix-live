@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Phone, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
