@@ -1,4 +1,5 @@
 import { Star, CheckCircle, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import { TECHNICIAN_NAMES, getStringHash } from "@/lib/utils";
 
 interface TechnicianCardProps {
@@ -27,10 +28,9 @@ export function TechnicianCard({ locationName, serviceName = "", name, rating = 
                         <h3 className="text-white font-bold text-base md:text-lg">Your Local Professional</h3>
                     </div>
                     <div className="p-4 md:p-6 text-center">
-                        <div className="w-16 h-16 md:w-24 md:h-24 bg-slate-200 rounded-full mx-auto mb-3 md:mb-4 border-2 md:border-4 border-white shadow-md flex items-center justify-center overflow-hidden">
+                        <div className="relative w-16 h-16 md:w-24 md:h-24 bg-slate-200 rounded-full mx-auto mb-3 md:mb-4 border-2 md:border-4 border-white shadow-md flex items-center justify-center overflow-hidden">
                             {image ? (
-                                /* eslint-disable-next-line @next/next/no-img-element */
-                                <img src={image} alt={displayName} className="w-full h-full object-cover" />
+                                <Image src={image} alt={displayName} fill className="object-cover" sizes="(max-width: 768px) 64px, 96px" />
                             ) : (
                                 <span className="text-3xl md:text-4xl leading-none block pt-1 md:pt-2">👨‍🔧</span>
                             )}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Phone, ChevronDown, ChevronUp } from "lucide-react";
+import Image from "next/image";
 import { siteConfig } from "@/config/siteConfig";
 
 interface HeroProps {
@@ -16,21 +17,24 @@ export function Hero({ heroTitle, serviceName, locationName, mainOffer, heroImag
     // Replace placeholders in the offer text if they exist dynamically (though they should be pre-processed)
     // For safety, we display the passed prop directly assuming it's already processed by the parent.
 
-    const sectionStyle: React.CSSProperties = { backgroundImage: `url(${heroImage})` };
-
-    const sectionProps = { style: sectionStyle };
-
     return (
         <section
-            className="relative text-white py-12 px-4 md:py-24 md:px-6 bg-slate-900 bg-cover bg-center"
-            {...sectionProps}
+            className="relative text-white py-12 px-4 md:py-24 md:px-6 bg-slate-900 bg-cover bg-center overflow-hidden"
         >
+            <Image
+                src={heroImage}
+                alt={heroTitle || "Hero background image"}
+                fill
+                priority
+                className="object-cover z-0"
+                sizes="100vw"
+            />
             {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-slate-900/80 md:bg-slate-900/70"></div>
+            <div className="absolute inset-0 bg-slate-900/80 md:bg-slate-900/70 z-0"></div>
 
             <div className="relative max-w-4xl mx-auto text-center z-10">
                 <div className="inline-block bg-blue-600/20 border border-blue-500/30 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm">
-                    <span className="text-blue-300 text-sm font-semibold tracking-wide uppercase">
+                    <span className="text-blue-200 text-sm font-semibold tracking-wide uppercase">
                         {locationName}&apos;s #1 {serviceName} Service
                     </span>
                 </div>
@@ -39,7 +43,7 @@ export function Hero({ heroTitle, serviceName, locationName, mainOffer, heroImag
                     {heroTitle}
                 </h1>
 
-                <p className={`${isOfferExpanded ? 'block' : 'hidden md:block'} text-xl text-slate-300 mb-8 max-w-2xl mx-auto`}>
+                <p className={`${isOfferExpanded ? 'block' : 'hidden md:block'} text-xl text-slate-200 mb-8 max-w-2xl mx-auto`}>
                     {mainOffer}
                 </p>
 
@@ -70,7 +74,7 @@ export function Hero({ heroTitle, serviceName, locationName, mainOffer, heroImag
                     </button>
                 </div>
 
-                <p className={`${isOfferExpanded ? 'block' : 'hidden md:block'} mt-4 text-sm text-slate-400`}>
+                <p className={`${isOfferExpanded ? 'block' : 'hidden md:block'} mt-4 text-sm text-slate-300`}>
                     No hidden charges. Pay after service.
                 </p>
 

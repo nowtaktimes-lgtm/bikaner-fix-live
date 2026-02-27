@@ -5,25 +5,33 @@ import { Download, CheckCircle2, Smartphone, Apple, ArrowRight } from "lucide-re
 import Link from "next/link";
 import { siteConfig } from "@/config/siteConfig";
 
+interface BeforeInstallPromptEvent extends Event {
+    prompt: () => Promise<void>;
+    userChoice: Promise<{ outcome: 'accepted' | 'dismissed', platform: string }>;
+}
+
 export default function DownloadAppPage() {
-    const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+    const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
     const [isIOS, setIsIOS] = useState(false);
     const [isStandalone, setIsStandalone] = useState(false);
 
     useEffect(() => {
-        // Detect iOS
-        const userAgent = window.navigator.userAgent.toLowerCase();
-        const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
-        setIsIOS(isIosDevice);
+        const initDeviceContext = () => {
+            // Detect iOS
+            const userAgent = window.navigator.userAgent.toLowerCase();
+            const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
+            setIsIOS(isIosDevice);
 
-        // Detect if already installed / running as PWA
-        const isPWA = window.matchMedia('(display-mode: standalone)').matches;
-        setIsStandalone(isPWA);
+            // Detect if already installed / running as PWA
+            const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+            setIsStandalone(isPWA);
+        };
+        initDeviceContext();
 
         // Listen for the install prompt event
         const handler = (e: Event) => {
             e.preventDefault();
-            setDeferredPrompt(e);
+            setDeferredPrompt(e as BeforeInstallPromptEvent);
         };
 
         window.addEventListener("beforeinstallprompt", handler);
@@ -43,7 +51,7 @@ export default function DownloadAppPage() {
         }
 
         deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
+        await deferredPrompt.userChoice;
         setDeferredPrompt(null);
     };
 
@@ -60,7 +68,7 @@ export default function DownloadAppPage() {
                         Get Fix Bikaner on your Phone
                     </h1>
                     <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                        Experience lightning-fast bookings, exclusive app-only discounts, and easy access to Bikaner's #1 home service experts right from your home screen.
+                        Experience lightning-fast bookings, exclusive app-only discounts, and easy access to Bikaner&apos;s #1 home service experts right from your home screen.
                     </p>
                 </div>
 
@@ -139,8 +147,8 @@ export default function DownloadAppPage() {
                                     </div>
                                     <ol className="list-decimal list-inside space-y-3 text-slate-700 font-medium">
                                         <li>Tap the <strong>Share icon</strong> (square with up arrow) at the bottom.</li>
-                                        <li>Scroll down and tap <strong>"Add to Home Screen"</strong>.</li>
-                                        <li>Tap <strong>"Add"</strong> in the top right corner.</li>
+                                        <li>Scroll down and tap <strong>&quot;Add to Home Screen&quot;</strong>.</li>
+                                        <li>Tap <strong>&quot;Add&quot;</strong> in the top right corner.</li>
                                     </ol>
                                 </div>
                             </>

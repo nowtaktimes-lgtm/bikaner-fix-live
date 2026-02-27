@@ -2,4 +2,5 @@
 // import {defineConfig} from 'sanity'
 // ... (Sanity disabled due to npm install error)
 
-export default {}
+const sanityConfig = {}
+export default sanityConfig

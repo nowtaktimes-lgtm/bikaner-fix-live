@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { locations } from "@/data/locations";
 import { siteConfig } from "@/config/siteConfig";
 import { MapPin, ArrowRight, ShieldCheck, Home } from "lucide-react";
@@ -35,7 +34,7 @@ export default function ServiceAreasPage() {
                         Bikaner Home Service Areas
                     </h1>
                     <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                        From the historic lanes of the old city to the modern outskirts, Fix Bikaner's verified expert technicians are available everywhere for AC Repair, RO Service, and more in less than 45 minutes.
+                        From the historic lanes of the old city to the modern outskirts, Fix Bikaner&apos;s verified expert technicians are available everywhere for AC Repair, RO Service, and more in less than 45 minutes.
                     </p>
                 </div>
             </div>
@@ -145,7 +144,7 @@ export default function ServiceAreasPage() {
                 <div className="bg-gradient-to-r from-blue-700 to-slate-900 rounded-3xl p-8 md:p-12 text-center text-white mt-12 relative overflow-hidden shadow-xl">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl -mr-20 -mt-20"></div>
                     <ShieldCheck className="w-16 h-16 mx-auto mb-6 text-blue-300" />
-                    <h3 className="text-3xl font-extrabold mb-4">Can't find your exact area?</h3>
+                    <h3 className="text-3xl font-extrabold mb-4">Can&apos;t find your exact area?</h3>
                     <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
                         We have expanded! Fix Bikaner now covers up to 60km around Bikaner city, Nokha, and Deshnoke, reaching 500+ regional neighborhoods directly at your doorstep.
                     </p>

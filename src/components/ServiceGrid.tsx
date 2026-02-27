@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import * as Icons from 'lucide-react';
 import { services } from '@/data/services';
 
@@ -14,7 +15,7 @@ const cardTheme = [
 export default function ServiceGrid() {
     return (
         <section id="services" className="py-8 md:py-16 px-3 md:px-4 relative z-20">
-
+            <h2 className="sr-only">Our Services</h2>
 
             <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
                 {services.map((service, index) => {
@@ -41,9 +42,14 @@ export default function ServiceGrid() {
                             {/* Image at Bottom Right (Rounded clipping to mimic cutout) */}
                             {service.heroImage && (
                                 <div className="absolute bottom-0 right-0 w-[55%] h-[75%] md:w-[50%] md:h-[70%] transform group-hover:scale-105 transition-transform duration-500 origin-bottom-right z-0">
-                                    <div className="w-full h-full rounded-tl-[2rem] md:rounded-tl-[3.5rem] overflow-hidden shadow-[-8px_-8px_20px_rgba(0,0,0,0.2)] border-t-[3px] border-l-[3px] border-white/20">
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img src={service.heroImage} alt={service.name} className="w-full h-full object-cover object-center" />
+                                    <div className="w-full h-full relative rounded-tl-[2rem] md:rounded-tl-[3.5rem] overflow-hidden shadow-[-8px_-8px_20px_rgba(0,0,0,0.2)] border-t-[3px] border-l-[3px] border-white/20 z-0">
+                                        <Image
+                                            src={service.heroImage}
+                                            alt={service.name}
+                                            fill
+                                            className="object-cover object-center"
+                                            sizes="(max-width: 768px) 50vw, 25vw"
+                                        />
                                     </div>
                                 </div>
                             )}

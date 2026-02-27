@@ -113,7 +113,7 @@ export function PricingCalculator({ serviceName, locationName, baseVisitCharge }
 
                         <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-4">
                             <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm text-slate-600">Estimated Cost</span>
+                                <span className="text-sm text-slate-600">Estimated Cost {locationName ? `in ${locationName}` : ''}</span>
                                 <span className="text-xl font-black text-blue-700">{selectedProblem.estPrice}</span>
                             </div>
                             <div className="flex justify-between items-center text-xs text-slate-500">

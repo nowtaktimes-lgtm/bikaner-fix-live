@@ -22,7 +22,7 @@ export default function FAQMap({ faqs, serviceName, locationName }: FAQBlockProp
                                 {faq.question}
                             </h3>
                             <p className="text-slate-600 pl-10 leading-relaxed">
-                                {faq.answer}
+                                {faq.answer.replace(/{location}/g, locationName)}
                             </p>
                         </div>
                     ))}

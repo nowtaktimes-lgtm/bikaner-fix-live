@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/config/siteConfig";
 import { Phone, Mail, MapPin } from "lucide-react";
 
@@ -54,11 +55,12 @@ export function Footer() {
                     <div className="md:col-span-3 border-t border-slate-800 pt-8 mt-4">
                         <div className="flex flex-col md:flex-row items-center gap-6 bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
                             <Link href="https://www.instagram.com/p/C74WTeDy31g/?igsh=MWZvNWdpeng3MG4wYg%3D%3D" target="_blank" className="relative w-16 h-16 rounded-full bg-slate-600 overflow-hidden flex-shrink-0 border-2 border-blue-500 hover:scale-105 transition-transform">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
+                                <Image
                                     src="https://ui-avatars.com/api/?name=Aahan&background=2563eb&color=fff&size=200&bold=true"
                                     alt="Aahan - Founder"
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    className="object-cover"
+                                    unoptimized
                                 />
                             </Link>
                             <div>

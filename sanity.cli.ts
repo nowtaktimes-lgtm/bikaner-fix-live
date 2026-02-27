@@ -1,4 +1,5 @@
 // import {defineCliConfig} from 'sanity/cli'
 // ...
 
-export default {}
+const cliConfig = {}
+export default cliConfig

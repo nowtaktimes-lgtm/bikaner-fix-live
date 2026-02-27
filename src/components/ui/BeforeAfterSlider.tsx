@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { GripVertical } from "lucide-react";
 
 interface BeforeAfterSliderProps {
@@ -35,7 +36,7 @@ export function BeforeAfterSlider({ beforeImage, afterImage }: BeforeAfterSlider
         if (isDragging) {
             window.addEventListener("mousemove", handleMouseMove);
             window.addEventListener("mouseup", () => setIsDragging(false));
-            window.addEventListener("touchmove", handleTouchMove, { passive: false });
+            window.addEventListener("touchmove", handleTouchMove, { passive: true });
             window.addEventListener("touchend", () => setIsDragging(false));
         }
         return () => {
@@ -47,9 +48,8 @@ export function BeforeAfterSlider({ beforeImage, afterImage }: BeforeAfterSlider
     }, [isDragging, handleMouseMove, handleTouchMove]);
 
     const styleBlock = `
-        .slider-after-bg { background-image: url('${afterImage}'); background-size: cover; background-position: center; }
-        .slider-before-bg { background-image: url('${beforeImage}'); background-size: cover; background-position: center; clip-path: inset(0 ${100 - sliderPosition}% 0 0); }
         .slider-handle-active { left: ${sliderPosition}%; transform: translateX(-50%); }
+        .slider-clipped-bg { clip-path: inset(0 ${100 - sliderPosition}% 0 0); }
     `;
 
     return (
@@ -72,17 +72,21 @@ export function BeforeAfterSlider({ beforeImage, afterImage }: BeforeAfterSlider
                 }}
             >
                 {/* After Image (Background) */}
-                <div className="absolute inset-0 bg-slate-100 slider-after-bg">
-                    <div className="absolute bottom-4 right-4 bg-emerald-500/90 text-white px-3 py-1 text-xs font-bold rounded-full shadow-lg">Clean</div>
+                <div className="absolute inset-0 bg-slate-100 z-0">
+                    <Image src={afterImage} alt="After Service" fill className="object-cover" sizes="(max-width: 768px) 100vw, 800px" />
+                    <div className="absolute bottom-4 right-4 bg-emerald-500/90 text-white px-3 py-1 text-xs font-bold rounded-full shadow-lg z-10">Clean</div>
                 </div>
 
                 {/* Before Image (Foreground/Clipped) */}
-                <div className="absolute inset-0 bg-slate-200 slider-before-bg">
-                    <div className="absolute bottom-4 left-4 bg-slate-900/80 text-white px-3 py-1 text-xs font-bold rounded-full shadow-lg">Dirty</div>
+                <div
+                    className="absolute inset-0 bg-slate-200 z-10 slider-clipped-bg"
+                >
+                    <Image src={beforeImage} alt="Before Service" fill className="object-cover" sizes="(max-width: 768px) 100vw, 800px" />
+                    <div className="absolute bottom-4 left-4 bg-slate-900/80 text-white px-3 py-1 text-xs font-bold rounded-full shadow-lg z-10">Dirty</div>
                 </div>
 
                 {/* Slider Handle */}
-                <div className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize shadow-[0_0_10px_rgba(0,0,0,0.5)] slider-handle-active">
+                <div className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize shadow-[0_0_10px_rgba(0,0,0,0.5)] slider-handle-active z-20">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-[0_0_15px_rgba(0,0,0,0.3)] flex items-center justify-center border-2 border-slate-200 text-blue-600 transition-transform group-hover:scale-110">
                         <GripVertical className="w-4 h-4" />
                     </div>

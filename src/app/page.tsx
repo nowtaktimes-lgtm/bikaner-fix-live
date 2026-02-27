@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Phone, Star, ShieldCheck, Clock, Zap, ArrowRight, CheckCircle2, MapPin, ChevronDown } from 'lucide-react';
 import { siteConfig } from '@/config/siteConfig';
@@ -19,7 +20,8 @@ export default function Home() {
 
   // Prevent hydration errors by only rendering the toggle after component mounts
   useEffect(() => {
-    setMounted(true);
+    const handleMount = () => setMounted(true);
+    handleMount();
   }, []);
 
   const topLocations = [
@@ -96,17 +98,15 @@ export default function Home() {
             <div className="absolute top-1/4 left-10 hidden lg:flex flex-col gap-3 p-4 bg-white/60 backdrop-blur-xl rounded-2xl border border-white shadow-xl shadow-slate-200/50 animate-float">
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-4">
-                  {/* eslint-disable @next/next/no-img-element */}
-                  <img src="https://i.pravatar.cc/100?img=1" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
-                  <img src="https://i.pravatar.cc/100?img=2" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
-                  <img src="https://i.pravatar.cc/100?img=3" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
-                  {/* eslint-enable @next/next/no-img-element */}
+                  <Image src="https://i.pravatar.cc/100?img=1" alt="User" width={40} height={40} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" unoptimized />
+                  <Image src="https://i.pravatar.cc/100?img=2" alt="User" width={40} height={40} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" unoptimized />
+                  <Image src="https://i.pravatar.cc/100?img=3" alt="User" width={40} height={40} className="w-10 h-10 rounded-full border-2 border-white shadow-sm" unoptimized />
                 </div>
                 <div>
-                  <div className="flex text-yellow-500 mb-0.5">
+                  <div className="flex text-amber-500 mb-0.5">
                     <Star className="w-3.5 h-3.5 fill-current" /><Star className="w-3.5 h-3.5 fill-current" /><Star className="w-3.5 h-3.5 fill-current" /><Star className="w-3.5 h-3.5 fill-current" /><Star className="w-3.5 h-3.5 fill-current" />
                   </div>
-                  <p className="text-xs text-slate-600 font-bold whitespace-nowrap">10k+ Loved Users</p>
+                  <p className="text-xs text-slate-800 font-bold whitespace-nowrap">10k+ Loved Users</p>
                 </div>
               </div>
             </div>

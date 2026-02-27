@@ -1,7 +1,8 @@
 // import createImageUrlBuilder from '@sanity/image-url'
 // ...
 
-export const urlFor = (source: any) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const urlFor = (source: unknown) => {
     return {
         url: () => ""
     }
