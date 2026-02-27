@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/siteConfig";
 import Link from "next/link";
 import { MapPin, ArrowRight, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
+import { ServiceRootSchema } from "@/components/seo/ServiceRootSchema";
 
 interface PageProps {
     params: Promise<{
@@ -53,6 +54,7 @@ export default async function ServiceRootPage(props: PageProps) {
 
     return (
         <div className="bg-slate-50 min-h-screen pb-20">
+            <ServiceRootSchema service={service} />
             {/* Hero Section */}
             <section className="relative pt-32 pb-20 bg-slate-900 overflow-hidden">
                 <div className="absolute inset-0 opacity-20">
